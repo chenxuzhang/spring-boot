@@ -278,14 +278,14 @@ public class SpringApplication {
 	public SpringApplication(ResourceLoader resourceLoader, Class<?>... primarySources) {
 		this.resourceLoader = resourceLoader;
 		Assert.notNull(primarySources, "PrimarySources must not be null");
-		this.primarySources = new LinkedHashSet<>(Arrays.asList(primarySources));
-		this.webApplicationType = WebApplicationType.deduceFromClasspath();
+		this.primarySources = new LinkedHashSet<>(Arrays.asList(primarySources)); // 配置类来源(配置加载入口,通过此类进行配合类递归加载解析)
+		this.webApplicationType = WebApplicationType.deduceFromClasspath(); // 区分当前web应用是Servlet还是Reactive(通过判断主类(DispatcherServlet、DispatcherHandler)存在不)
 		this.bootstrappers = new ArrayList<>(getSpringFactoriesInstances(Bootstrapper.class));
-		setInitializers((Collection) getSpringFactoriesInstances(ApplicationContextInitializer.class));
-		setListeners((Collection) getSpringFactoriesInstances(ApplicationListener.class));
-		this.mainApplicationClass = deduceMainApplicationClass();
+		setInitializers((Collection) getSpringFactoriesInstances(ApplicationContextInitializer.class)); // spi获取ApplicationContextInitializer
+		setListeners((Collection) getSpringFactoriesInstances(ApplicationListener.class)); // spi获取ApplicationListener
+		this.mainApplicationClass = deduceMainApplicationClass(); // 获取主启动类的Class
 	}
-
+	// 主启动类Class
 	private Class<?> deduceMainApplicationClass() {
 		try {
 			StackTraceElement[] stackTrace = new RuntimeException().getStackTrace();

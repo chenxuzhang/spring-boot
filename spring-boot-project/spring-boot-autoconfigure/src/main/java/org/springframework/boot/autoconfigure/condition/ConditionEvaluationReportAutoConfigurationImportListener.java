@@ -36,7 +36,7 @@ class ConditionEvaluationReportAutoConfigurationImportListener
 
 	@Override
 	public void onAutoConfigurationImportEvent(AutoConfigurationImportEvent event) {
-		if (this.beanFactory != null) {
+		if (this.beanFactory != null) { // 向 Spring  注册 or 获取 ConditionEvaluationReport实例,并将可自动配置的类+排除的自动配置类记录下来,供下一步的控制台打印使用
 			ConditionEvaluationReport report = ConditionEvaluationReport.get(this.beanFactory);
 			report.recordEvaluationCandidates(event.getCandidateConfigurations());
 			report.recordExclusions(event.getExclusions());
